@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Polls</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
+</head>
+
+<body>
+  <header>
+    <!--Start nav tabs -->
+    <ul class="nav nav-tabs" id="navId" role="tablist">
+      <li class="nav-item">
+        <a href="#tab1Id" class="nav-link active" data-id="0" data-bs-toggle="tab" aria-current="page">Polls</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a href="#tab5Id" class="nav-link" data-id="1" data-bs-toggle="tab">Create</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a href="#tab5Id" class="nav-link" data-id="2" data-bs-toggle="tab">List</a>
+      </li>
+    </ul>
+    <!-- End nav tabs -->
+  </header>
+  <main>
+
+    <div class="home-container col-6 m-auto d-none">
+      <h1 class="mt-5" id="poll-name"></h1>
+    </div>
+    <div class="create-poll-container d-none">
+      <div class="col-6 m-auto">
+
+        <h1 class=" my-5">Create Interview</h1>
+        <div class="col-10">
+          <div class="col-10 m-auto">
+            <input name="name_poll" type="text" class="form-control name_poll_container" aria-describedby="helpId"
+              placeholder="Name poll" />
+          </div>
+          <div class="question_content">
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <button type="button" class="btn btn-success add_question_btn">+ Add question</button>
+        </div>
+      </div>
+    </div>
+    <div class="list-poll-container d-none">
+      <h1>List poll</h1>
+    </div>
+
+  </main>
+  <footer>
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="../bootstrap/popper.min.js"></script>
+  <script src="../bootstrap/jquery.min.js"></script>
+  <script src="../bootstrap/bootstrap.min.js"></script>
+  <script src="../bootstrap/893b07513b.js"></script>
+
+  <!-- Application Javascript -->
+  <script type="module" src="../controller/question.controller.js"></script>
+  <script type="module" src="../controller/home.controller.js"></script>
+</body>
+
+</html>
