@@ -10,6 +10,7 @@ import { POLL } from "./home.controller.js";
     try {
       let poll = getLocalStorage(POLLS_STORAGE_KEY)[POLL] || []
       const answers = []
+      let isCorrectAnswer = true
 
       $(".answer-question").each((index, input) => {
         const { checked } = input;
@@ -32,11 +33,22 @@ import { POLL } from "./home.controller.js";
         return q;
       })
 
-      const polls = getLocalStorage(POLLS_STORAGE_KEY);
-      polls[POLL]["questions"] = poll;
+      poll.forEach(p => {
+        if (p?.mandotory && !p.answersUser.some(a => a.value)) {
+          $(`#error-message-${p?.id}`).html("(This field is require, please choose !)");
+          isCorrectAnswer = false
+        }
+        else {
+          $(`#error-message-${p?.id}`).html("")
+        }
+      })
+      if (isCorrectAnswer) {
+        const polls = getLocalStorage(POLLS_STORAGE_KEY);
+        polls[POLL]["questions"] = poll;
+        setLocalStorage(POLLS_STORAGE_KEY, polls)
+        toast("Retain answer", "Retain answer successful !")
+      }
 
-      setLocalStorage(POLLS_STORAGE_KEY, polls)
-      toast("Retain answer", "Retain answer successful !")
     } catch (error) {
       console.log(error);
       toast("Retain answer", "Retain answer fail !", "error")

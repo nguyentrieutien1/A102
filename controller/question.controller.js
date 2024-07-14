@@ -143,7 +143,7 @@ showPoll();
     const poll = getLocalStorage(POLLS_STORAGE_KEY) || []
     const question = getLocalStorage(QUESTION_LOCAL_STORAGE_KEY) || []
 
-    poll.push({ pollID: generateUUID(), pollTitle: document.querySelector(".name_poll_container").value, questions: question })
+    poll.push({ status: "active", pollID: generateUUID(), pollTitle: document.querySelector(".name_poll_container").value, questions: question })
 
     setLocalStorage(POLLS_STORAGE_KEY, poll)
     setLocalStorage(QUESTION_TITLE_LOCAL_STORAGE_KEY, "")

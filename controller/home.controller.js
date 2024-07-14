@@ -3,7 +3,7 @@ import { POLLS_STORAGE_KEY, QUESTION_TITLE_LOCAL_STORAGE_KEY } from "../constant
 const homeContainer = $(".home-container");
 const createPollConstainer = $(".create-poll-container");
 const listPollContainer = $(".list-poll-container");
-export const POLL = 3;
+export const POLL = 1;
 let poll = (getLocalStorage(POLLS_STORAGE_KEY)?.length > 0 && getLocalStorage(POLLS_STORAGE_KEY)[POLL]) || []
 // Clear dirty questions data before render
 const handleClearQuestionsDataBeforeRender = (questions) => {
@@ -13,8 +13,9 @@ const handleClearQuestionsDataBeforeRender = (questions) => {
 
 // Show home page when you vist fisrt
 (() => {
-  $(homeContainer).removeClass("d-none");
-  $(homeContainer).addClass("d-block");
+  $(listPollContainer).removeClass("d-none");
+  $(listPollContainer).addClass("d-block");
+  $(".retain-btn").addClass("d-none")
 })();
 
 
@@ -83,8 +84,9 @@ const showQuestion = (questions) => {
     <div class="${question?.id}">
           <div class="home-questions mt-5">
             <div class="question">
-              <div class="question-text d-flex align-content-center">
+              <div class="question-text d-flex align-items-center">
                 <span>${++index}. ${question.question || ""}</span>${question?.mandotory ? `<span class="text-danger ms-1">*</span>` : ""}
+                <div class="text-danger"  id="error-message-${question?.id}"></div>
               </div>
   
               ${question.answers.map((answer, index) => `<div class="checkbox mt-3">
@@ -106,6 +108,6 @@ const showQuestion = (questions) => {
   homeContainer.html(` <h1 class="mt-5" id="poll-name">${poll?.pollTitle || ""}</h1>`)
   homeContainer.append(showQuestion((questionsAfterCleared)))
   if (questionsAfterCleared?.length > 0) {
-    $(".retain-btn").removeClass("d-none");
+    // $(".retain-btn").removeClass("d-none");
   }
 })();
