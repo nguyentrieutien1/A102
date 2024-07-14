@@ -12,6 +12,21 @@
 </head>
 
 <body>
+  <!-- Start toast session -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="basicToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-success text-white">
+        <strong class="me-auto toast-title">Bootstrap</strong>
+        <small class="text-white">just now</small>
+        <button style="color: white !important;" type="button" class="btn-close text-white" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+      </div>
+    </div>
+    <!-- End toast session -->
+  </div>
   <header>
     <!--Start nav tabs -->
     <ul class="nav nav-tabs" id="navId" role="tablist">
@@ -30,11 +45,10 @@
   <main>
 
     <div class="home-container col-6 m-auto d-none">
-      <h1 class="mt-5" id="poll-name"></h1>
     </div>
+    <div class="col-6 m-auto"><button type="button" class="btn btn-success mt-5 d-none retain-btn">Retain</button></div>
     <div class="create-poll-container d-none">
       <div class="col-6 m-auto">
-
         <h1 class=" my-5">Create Interview</h1>
         <div class="col-10">
           <div class="col-10 m-auto">
@@ -47,6 +61,7 @@
 
         <div class="mt-5">
           <button type="button" class="btn btn-success add_question_btn">+ Add question</button>
+          <button type="button" class="btn btn-success add_poll_btn">+ Add Poll</button>
         </div>
       </div>
     </div>
@@ -66,6 +81,7 @@
   <!-- Application Javascript -->
   <script type="module" src="../controller/question.controller.js"></script>
   <script type="module" src="../controller/home.controller.js"></script>
+  <script type="module" src="../controller/answer-question.js"></script>
 </body>
 
 </html>

@@ -1,11 +1,12 @@
 import { getLocalStorage, setLocalStorage } from "../helpers/local-storage.js"
 import { Question } from "../models/Question.js"
 import { generateUUID } from "../helpers/uuid.js"
-import { QUESTION_LOCAL_STORAGE_KEY, QUESTION_TITLE_LOCAL_STORAGE_KEY } from "../constants/local-storage-key.js";
+import { POLLS_STORAGE_KEY, QUESTION_LOCAL_STORAGE_KEY, QUESTION_TITLE_LOCAL_STORAGE_KEY } from "../constants/local-storage-key.js";
 import { convertNumberToArray } from "../helpers/convert-number-to-array.js"
+import { toast } from "../helpers/toast.js";
 
 // Init default value in list with length = 1;
-let listQuestion = getLocalStorage(QUESTION_LOCAL_STORAGE_KEY) || [new Question()]
+let listQuestion = getLocalStorage(QUESTION_LOCAL_STORAGE_KEY) || []
 
 // Get element contain the questions
 const questionContentElement = $(".question_content");
@@ -38,7 +39,7 @@ const showAllQuesion = (listQuestion) => {
     <i class="add-answer-btn fa-solid fa-plus bg-success text-white h-100 text-center pointer-event"
       style="width: 40px; line-height: 40px" data-id="${question?.id}"></i>
               </div >
-              <div class="text-danger text-center anwer-error-message-${question?.answers[index]?.id || generateUUID()}}"></div>
+              <div class="text-danger text-left anwer-error-message-${question?.answers[index]?.id || generateUUID()}}"></div>
               `).join(" ")}
             </div>
           </div>
@@ -124,21 +125,44 @@ const addQuestion = () => {
   questionContentElement.append(showAllQuesion(listQuestion));
   $(".name_poll_container").html(getLocalStorage(QUESTION_TITLE_LOCAL_STORAGE_KEY))
 }
-(() => {
+
+const showPoll = () => {
   addQuestion();
   setLocalStorage(QUESTION_LOCAL_STORAGE_KEY, listQuestion);
   handleQuestionData();
-})();
-
+}
+showPoll();
 // Handle add question
 (() => {
 
   // Initial elements
   const addQuestionButton = $(".add_question_btn");
+  const addPollButton = $(".add_poll_btn");
+
+  addPollButton.click(() => {
+    const poll = getLocalStorage(POLLS_STORAGE_KEY) || []
+    const question = getLocalStorage(QUESTION_LOCAL_STORAGE_KEY) || []
+
+    poll.push({ pollID: generateUUID(), pollTitle: document.querySelector(".name_poll_container").value, questions: question })
+
+    setLocalStorage(POLLS_STORAGE_KEY, poll)
+    setLocalStorage(QUESTION_TITLE_LOCAL_STORAGE_KEY, "")
+    setLocalStorage(QUESTION_LOCAL_STORAGE_KEY, [])
+    questionContentElement.html(showAllQuesion([]));
+
+    if (question.length > 0) {
+      toast("Create poll", "Poll was created successful !")
+    }
+    else {
+      toast("Create poll", "Question not be empty !", "warning")
+    }
+    $(".name_poll_container").addClass("d-none")
+  })
 
   addQuestionButton.click(() => {
 
     // Handle valid input data
+    $(".name_poll_container").removeClass("d-none")
     checkValidInput()
 
   })
@@ -154,8 +178,9 @@ const checkValidInput = () => {
 
 
   quesionInput.forEach(question => {
-    if (!question.value) {
-      question.nextElementSibling.innerHTML = "This field cannot be empty !"
+    const { name, value } = question
+    if (!value) {
+      question.nextElementSibling.innerHTML = `${name} cannot be empty !`
       isAllowCreateQuestion = false;
     }
     else {
@@ -163,9 +188,9 @@ const checkValidInput = () => {
     }
   })
   answerElements.forEach(answer => {
-    console.log(answer.value);
-    if (!answer.value) {
-      answer.parentElement.nextElementSibling.innerHTML = "This field cannot be empty !"
+    const { name, value } = answer
+    if (!value) {
+      answer.parentElement.nextElementSibling.innerHTML = `${name} cannot be empty !`
       isAllowCreateQuestion = false;
     }
     else {
@@ -177,5 +202,6 @@ const checkValidInput = () => {
     questionContentElement.html(showAllQuesion(listQuestion));
     handleQuestionData();
     setLocalStorage(QUESTION_LOCAL_STORAGE_KEY, listQuestion);
+    toast("Create question", "Question was created successful !")
   }
 }
