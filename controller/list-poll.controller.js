@@ -7,7 +7,9 @@ import { getLocalStorage, setLocalStorage } from "../helpers/local-storage.js";
 let polls = getLocalStorage(POLLS_STORAGE_KEY) || []
 
 // Show polls
-const showPolls = (polls, status) => {
+export const showPolls = (polls, status) => {
+  console.log(polls);
+  console.log(status);
   const pollElement = $("#polls")
   const mapPoll = [...polls].filter(p => p?.status === status).map((poll, index) => {
     return `<tr>
@@ -29,7 +31,7 @@ const showPolls = (polls, status) => {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button  data-id="${poll?.pollID}"   type="button" class="btn btn-primary delete-btn">Save changes</button>
+        <button  data-id="${poll?.pollID}" type="button" class="btn btn-primary delete-btn"  data-bs-dismiss="modal">Save</button>
       </div>
     </div>
   </div>
@@ -66,7 +68,7 @@ const showPolls = (polls, status) => {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
@@ -77,26 +79,24 @@ const showPolls = (polls, status) => {
   handleActionButtonClick()
 }
 let tabName = "active";
+
 // Switch tabs
 (() => {
-
   $(".poll-nav-item").each((index, item) => {
-
     $(item).click(() => {
 
       let polls = getLocalStorage(POLLS_STORAGE_KEY) || []
-
       if (index === 0) {
-        showPolls("active")
         tabName = "active"
+        showPolls(polls, tabName)
       }
       else if (index === 1) {
-        showPolls("drafts")
         tabName = "drafts"
+        showPolls(polls, "delete")
       }
       else {
-        showPolls(polls, "closed")
         tabName = "closed"
+        showPolls(polls, tabName)
       }
     })
 
@@ -149,6 +149,12 @@ const handleActionButtonClick = () => {
 // App
 const app = () => {
   showPolls(polls, tabName)
+  $(".poll-nav-item").each((index, item) => {
+    $(item).removeClass("active")
+    if (index === 0) {
+      $(item).addClass("active")
+    }
+  })
 }
 
 app()

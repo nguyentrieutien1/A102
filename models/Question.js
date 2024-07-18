@@ -9,6 +9,7 @@ class Question {
     this.numberQuestion = 1
   }
 }
+
 export {
   Question
 }

@@ -1,9 +1,10 @@
 import { getLocalStorage } from "../helpers/local-storage.js"
 import { POLLS_STORAGE_KEY, QUESTION_TITLE_LOCAL_STORAGE_KEY } from "../constants/local-storage-key.js"
+import { showPolls } from "./list-poll.controller.js";
 const homeContainer = $(".home-container");
 const createPollConstainer = $(".create-poll-container");
 const listPollContainer = $(".list-poll-container");
-export const POLL = 1;
+export const POLL = 0;
 let poll = (getLocalStorage(POLLS_STORAGE_KEY)?.length > 0 && getLocalStorage(POLLS_STORAGE_KEY)[POLL]) || []
 // Clear dirty questions data before render
 const handleClearQuestionsDataBeforeRender = (questions) => {
@@ -13,9 +14,14 @@ const handleClearQuestionsDataBeforeRender = (questions) => {
 
 // Show home page when you vist fisrt
 (() => {
-  $(listPollContainer).removeClass("d-none");
-  $(listPollContainer).addClass("d-block");
-  $(".retain-btn").addClass("d-none")
+  $(homeContainer).removeClass("d-none");
+  $(homeContainer).addClass("d-block");
+
+  const questionsAfterCleared = handleClearQuestionsDataBeforeRender(poll?.questions)
+  if (questionsAfterCleared?.length > 0) {
+    $(".retain-btn").removeClass("d-none");
+  }
+
 })();
 
 
@@ -72,6 +78,8 @@ const handleClearQuestionsDataBeforeRender = (questions) => {
 
 
         $(".retain-btn").addClass("d-none");
+        showPolls(polls, "active")
+
       }
     })
   })
@@ -103,11 +111,10 @@ const showQuestion = (questions) => {
 
 // Render questions
 (() => {
-  console.log(poll);
   const questionsAfterCleared = handleClearQuestionsDataBeforeRender(poll?.questions);
   homeContainer.html(` <h1 class="mt-5" id="poll-name">${poll?.pollTitle || ""}</h1>`)
   homeContainer.append(showQuestion((questionsAfterCleared)))
   if (questionsAfterCleared?.length > 0) {
-    // $(".retain-btn").removeClass("d-none");
+    $(".retain-btn").removeClass("d-none");
   }
 })();

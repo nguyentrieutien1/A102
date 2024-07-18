@@ -21,7 +21,7 @@ const showAllQuesion = (listQuestion) => {
             <!-- Question input -->
             <input name="question" value="${question?.question || ""}"  data-id="${question.id}" data-id="${question.id}" type="text" class="form-control question-input" aria-describedby="helpId"
               placeholder="Enter your question" />
-              <div class="text-danger mt-1 error-question-${question?.id}"></div>
+              <div class="text-danger mt-1"></div>
             <div>
               <div class="form-check  my-4">
                 <input ${question?.mandotory && "checked"} data-id="${question.id}" name="mandotory" class="form-check-input" type="checkbox" id="mandotory-${question.id}" />
